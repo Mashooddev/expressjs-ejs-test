@@ -1,0 +1,137 @@
+<!-- views/login.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body class="bg-light">
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="mb-0">Sign Up</h3>
+            </div>
+            <div class="card-body">
+              <!-- Login form -->
+
+              <!-- First Name field -->
+              <div class="form-group">
+                <label for="email">First Name:</label>
+                <input
+                  type="firstname"
+                  class="form-control"
+                  id="firstname"
+                  name="firstname"
+                  placeholder="Enter your First Name"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Please enter a valid First Name.
+                </div>
+              </div>
+              <!-- Last Name field -->
+              <div class="form-group">
+                <label for="email">Last Name:</label>
+                <input
+                  type="lastname"
+                  class="form-control"
+                  id="lastname"
+                  name="lastname"
+                  placeholder="Enter your Last Name"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Please enter a valid Last Name.
+                </div>
+              </div>
+              <!-- Email field -->
+              <div class="form-group">
+                <label for="email">Email:</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Please enter a valid email address.
+                </div>
+              </div>
+
+              <!-- Password field -->
+              <div class="form-group">
+                <label for="password">Password:</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  required
+                />
+                <div class="invalid-feedback">Please enter your password.</div>
+              </div>
+
+              <!-- Login button -->
+              <button onclick="signUp()" class="btn btn-primary">
+                Sign Up
+              </button>
+
+              <!-- Display error message if present -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+  <script>
+    function signUp() {
+      fetch("/users/sign-up", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstname: document.getElementById("firstname").value,
+          lastname: document.getElementById("lastname").value,
+          email: document.getElementById("email").value,
+          password: document.getElementById("password").value,
+        }),
+      })
+        .then((res) => {
+          console.log("Response status code:", res.status);
+
+          return res.json(); // Return the JSON parsed response
+        })
+        .then((data) => {
+          console.log("Response data:", data); // Log the response data
+          if (!data.result) {
+            alert(data.message);
+          } else {
+            alert(data.message);
+            window.location.href = "/sign-in";
+          }
+        })
+        .catch((error) => {
+          console.error("Error occurred:", error); // Log any errors
+        });
+    }
+  </script>
+</html>
